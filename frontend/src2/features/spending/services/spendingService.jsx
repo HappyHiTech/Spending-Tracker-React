@@ -19,7 +19,7 @@ export const adderClickService = async (token, formTarget) => {
         }
     })
 
-    return response.json();
+    return response;
 }
 
 export const deleteClickService = async (token, item_id) => {
@@ -32,7 +32,7 @@ export const deleteClickService = async (token, item_id) => {
         }
     })
 
-    return response.json();
+    return response;
 }
 
 export const totalSpentService = async (token) => {
@@ -43,7 +43,7 @@ export const totalSpentService = async (token) => {
         }
     });
 
-    return response.json();
+    return response;
 }
 
 export const percentPerCategoryService = async (token) => {
@@ -54,7 +54,7 @@ export const percentPerCategoryService = async (token) => {
         }
     });
 
-    return response.json();
+    return response;
 }
 
 export const pricePerCategoryService = async (token) => {
@@ -65,5 +65,5 @@ export const pricePerCategoryService = async (token) => {
         }
     });
 
-    return response.json();
+    return response;
 }

@@ -37,7 +37,7 @@ export default function NavBar() {
             <div className="navbar-container-content">
                 <a onClick={handleNavigateHome} className="navbar-link">Home</a>
                 <a onClick={handleNavigateDashboard} className="navbar-link">Dashboard</a>
-                {isLoggedIn.current ? (
+                {isLoggedIn ? (
                     <a onClick={handleLogout} className="navbar-link">Logout</a>
                 ) : (
                     <a onClick={handleNavigateLogin} className="navbar-link">Login</a>

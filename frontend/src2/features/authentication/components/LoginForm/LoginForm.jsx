@@ -87,9 +87,7 @@ export default function LoginForm() {
             if (!(data.error === "No user")) {
                 setLoginError("")
                 login(data.token, data.user);
-                if (isLoggedIn.current){
-                    navigate("/Spending-Tracker-React/dashboard");
-                }
+                navigate("/Spending-Tracker-React/dashboard");
             }
             else {
                 console.log("There isn't a user")

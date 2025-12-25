@@ -7,7 +7,7 @@ export const getCategoriesService = async(token) => {
         }
     })
 
-    return response.json();
+    return response;
 }
 
 export const budgetAdderService = async(token, formTarget) => {
@@ -19,7 +19,7 @@ export const budgetAdderService = async(token, formTarget) => {
         }
     })
 
-    return response.json();
+    return response;
 }
 
 export const getBudgetListService = async(token) => {
@@ -29,7 +29,7 @@ export const getBudgetListService = async(token) => {
         }
     })
 
-    return response.json();
+    return response;
 }
 
 export const deleteBudgetService = async(token, category) => {
@@ -42,5 +42,5 @@ export const deleteBudgetService = async(token, category) => {
         body: JSON.stringify({ category })
     })
 
-    return response.json();
+    return response;
 }

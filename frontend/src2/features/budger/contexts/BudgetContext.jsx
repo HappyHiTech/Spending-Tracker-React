@@ -1,5 +1,6 @@
 import React, {createContext, useContext, useState, useEffect, useRef} from 'react';
 import { useAuth } from '@contexts/AuthContext';
+import { useNavigate } from "react-router-dom";
 import { getCategoriesService, budgetAdderService, getBudgetListService, deleteBudgetService } from '../services/budgetService';
 
 const BudgetContext = createContext();
@@ -15,7 +16,8 @@ export const useBudget = () => {
 export function BudgetProvider({children}){
     const [ categories, setCategories] = useState([]);
     const [ budgetList, setBudgetList ] = useState([]);
-    const { token } = useAuth();
+    const { token, logout } = useAuth();
+    const navigate = useNavigate();
 
     useEffect(() => {
         (async () => {
@@ -26,7 +28,15 @@ export function BudgetProvider({children}){
 
     const getCategories = async () => {
         try {   
-            const data = await getCategoriesService(token);
+            const response = await getCategoriesService(token);
+            
+            if (response.status === 401 || response.status === 403) {
+                logout();
+                navigate("/Spending-Tracker-React/login");
+                return;
+            }
+            
+            const data = await response.json();
             setCategories(data)
         }
         catch (err) {
@@ -36,7 +46,15 @@ export function BudgetProvider({children}){
 
     const getBudgetList = async () => {
         try {
-            const data = await getBudgetListService(token);
+            const response = await getBudgetListService(token);
+            
+            if (response.status === 401 || response.status === 403) {
+                logout();
+                navigate("/Spending-Tracker-React/login");
+                return;
+            }
+            
+            const data = await response.json();
             setBudgetList(data);
         }
         catch (err) {
@@ -48,7 +66,15 @@ export function BudgetProvider({children}){
         e.preventDefault();
 
         try {
-            const data = await budgetAdderService(token, e.target)
+            const response = await budgetAdderService(token, e.target)
+            
+            if (response.status === 401 || response.status === 403) {
+                logout();
+                navigate("/Spending-Tracker-React/login");
+                return;
+            }
+            
+            const data = await response.json();
             console.log(data);
             setBudgetList(data);
 
@@ -60,7 +86,15 @@ export function BudgetProvider({children}){
 
     const handleDeleteBudget = async (category) => {
         try {
-            const data = await deleteBudgetService(token, category);
+            const response = await deleteBudgetService(token, category);
+            
+            if (response.status === 401 || response.status === 403) {
+                logout();
+                navigate("/Spending-Tracker-React/login");
+                return;
+            }
+            
+            const data = await response.json();
             setBudgetList(data);
         }
         catch (err) {

@@ -46,9 +46,9 @@ export function SpenderProvider({ children }){
         try {
             const response = await getDataService(token);
 
-            if (response.status === 401){
+            if (response.status === 401 || response.status === 403){
                 logout();
-                navigate("/Spender-Tracker-React/");
+                navigate("/Spending-Tracker-React/login");
             }
             else {
                 const data = await response.json();
@@ -68,8 +68,15 @@ export function SpenderProvider({ children }){
         setAdderNotes(formValidMessage)
         if (formValidMessage == "Adding successful!"){
             try {
-                const data = await adderClickService(token, e.target);
+                const response = await adderClickService(token, e.target);
                 
+                if (response.status === 401 || response.status === 403) {
+                    logout();
+                    navigate("/Spending-Tracker-React/login");
+                    return;
+                }
+                
+                const data = await response.json();
                 setItemList(data.slice(0, -1));
                 setTotalSpending(data.at(-1))
                 handlePercentPerCategory();
@@ -85,7 +92,15 @@ export function SpenderProvider({ children }){
         const item_id = itemList[index]["_id"];
 
         try{
-            const data = await deleteClickService(token, item_id);
+            const response = await deleteClickService(token, item_id);
+            
+            if (response.status === 401 || response.status === 403) {
+                logout();
+                navigate("/Spending-Tracker-React/login");
+                return;
+            }
+            
+            const data = await response.json();
             setItemList(data.slice(0, -1));
             setTotalSpending(data.at(-1));
             handlePercentPerCategory();
@@ -100,7 +115,15 @@ export function SpenderProvider({ children }){
 
     const handleTotalSpent = async () => {
         try {
-            const data = await totalSpentService(token);
+            const response = await totalSpentService(token);
+            
+            if (response.status === 401 || response.status === 403) {
+                logout();
+                navigate("/Spending-Tracker-React/login");
+                return;
+            }
+            
+            const data = await response.json();
             const total_spent = data["total_spent"];
             setTotalSpending(total_spent);
         }
@@ -112,7 +135,15 @@ export function SpenderProvider({ children }){
 
     const handlePercentPerCategory = async () => {
         try {
-            const data = await percentPerCategoryService(token);
+            const response = await percentPerCategoryService(token);
+            
+            if (response.status === 401 || response.status === 403) {
+                logout();
+                navigate("/Spending-Tracker-React/login");
+                return;
+            }
+            
+            const data = await response.json();
             setPercentPerCategory(data)
         }
         catch (err) {
@@ -122,7 +153,15 @@ export function SpenderProvider({ children }){
 
     const handlePricePerCategory = async() => {
         try {
-            const data = await pricePerCategoryService(token);
+            const response = await pricePerCategoryService(token);
+            
+            if (response.status === 401 || response.status === 403) {
+                logout();
+                navigate("/Spending-Tracker-React/login");
+                return;
+            }
+            
+            const data = await response.json();
             setPricePerCategory(data);
         }
         catch (err) {

@@ -4,7 +4,7 @@ import { Navigate } from "react-router-dom";
 const ProtectedRoute = ({children}) => {
     const {isLoggedIn} = useAuth();
 
-    if (!isLoggedIn.current) {
+    if (!isLoggedIn) {
         return <Navigate to="/Spending-Tracker-React/login" replace />;
     }
 
