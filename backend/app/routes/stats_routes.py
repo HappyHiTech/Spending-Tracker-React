@@ -17,8 +17,8 @@ stats_bp = Blueprint("stats", __name__)
 @JWTM.verify_jwt
 def get_total_spent():
     user_id = request.user_id
-    # total_spent = DBM.get_total_spent(user_id)
-    total_spent = SM.total_price(user_id)
+    view = request.args.get('view', 'all')  # Default to 'all' if not specified
+    total_spent = SM.total_price(user_id, view)
     return jsonify({"total_spent": total_spent})
 
 @stats_bp.route("/api/get_percent_per_category", methods=["POST"])
@@ -26,7 +26,8 @@ def get_total_spent():
 @JWTM.verify_jwt
 def get_percent_per_category():
     user_id = request.user_id
-    category_dict = SM.get_percent_per_category(user_id)
+    view = request.args.get('view', 'all')  # Default to 'all' if not specified
+    category_dict = SM.get_percent_per_category(user_id, view)
     return jsonify(category_dict)
 
 
@@ -35,5 +36,6 @@ def get_percent_per_category():
 @JWTM.verify_jwt
 def get_price_per_category():
     user_id = request.user_id
-    category_dict = SM.get_price_per_category(user_id)
+    view = request.args.get('view', 'all')  # Default to 'all' if not specified
+    category_dict = SM.get_price_per_category(user_id, view)
     return jsonify(category_dict)

@@ -22,7 +22,21 @@ def temp():
 @JWTM.verify_jwt
 def get_data():
     user_id = request.user_id
-    item_list = DBM.get_documents(user_id)
+    view = request.args.get('view', 'all')  # Default to 'all' if not specified
+    
+    if view == 'monthly':
+        item_list = DBM.get_month_documents(user_id)
+    else:
+        item_list = DBM.get_documents(user_id)
+    
+    return jsonify(item_list)
+
+@item_bp.route('/api/get_month_data')
+@cross_origin(origins=["http://localhost:5173", "http://127.0.0.1:5173", "https://happyhitech.github.io"])
+@JWTM.verify_jwt
+def get_month_data():
+    user_id = request.user_id
+    item_list = DBM.get_month_documents(user_id)
     return jsonify(item_list)
 
 
@@ -32,7 +46,7 @@ def get_data():
 def add_data():
     user_id = request.user_id
     DBM.insert_transaction(user_id, request.form)
-    item_list = DBM.get_documents(user_id)
+    item_list = DBM.get_month_documents(user_id)
     total_spent = SM.total_price(user_id)
     item_list.append(total_spent)
     return jsonify(item_list)

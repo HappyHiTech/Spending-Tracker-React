@@ -61,6 +61,48 @@ class DataBaseManager:
             item_list.append(temp_item_dict)
         return item_list
         # return [{**doc, "_id": str(doc["_id"])} for doc in transaction_collection.find({"user_id": user_id})]
+
+    def get_month_documents(self, user_id: str) -> list:
+        transaction_collection = self._db["transactions"]
+        item_list = []
+        
+        # Get current year and month in YYYY-MM format
+        now = datetime.now()
+        current_year_month = now.strftime("%Y-%m")
+        current_year = now.year
+        current_month = now.month
+        
+        # Use MongoDB query to filter by date prefix
+        query = {
+            "user_id": user_id,
+            "date": {"$regex": f"^{current_year_month}-"}
+        }
+        
+        for doc in transaction_collection.find(query):
+            # Double-check the date is actually in the current month
+            doc_date_str = doc.get("date", "")
+            if not doc_date_str or not isinstance(doc_date_str, str):
+                continue
+                
+            # Verify it starts with current year-month
+            if doc_date_str.startswith(current_year_month):
+                try:
+                    # Parse the date to ensure it's valid and in current month
+                    doc_date = datetime.strptime(doc_date_str, "%Y-%m-%d")
+                    if doc_date.year == current_year and doc_date.month == current_month:
+                        temp_item_dict = {
+                            "_id": str(doc["_id"]),
+                            "user_id": doc["user_id"],
+                            "date": doc_date.strftime("%B %d"),
+                            "item": doc["item"],
+                            "price": f"${doc["price"]}",
+                            "category": doc["category"]
+                        }
+                        item_list.append(temp_item_dict)
+                except (ValueError, KeyError):
+                    # Skip invalid date formats
+                    continue
+        return item_list
     
     def insert_user(self, user_id, form_data: ImmutableMultiDict) -> bool:
         users_collection = self._db["users"]
