@@ -47,7 +47,8 @@ export default function DashboardPage(){
                 </div>
                 
                 <div className={`dashboard-section-content${(isDesktop || isSideBar) ? '-visible' : ''}`}>
-                    {activeComponent === 'currentMonth' && <CurrentMonth />}
+                    {activeComponent === 'currentMonth' && <CurrentMonth view="monthly" />}
+                    {activeComponent === 'allTime' && <CurrentMonth view="all" />}
                     {activeComponent === "budget" && <Budget />}
                 </div>
             

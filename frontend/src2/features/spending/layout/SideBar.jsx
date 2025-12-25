@@ -5,8 +5,12 @@ import { useState } from "react";
 export default function SideBar({ onComponentChange }) {
     const [componentToRender, setComponentToRender] = useState("currentMonth");
 
-    const handleCurrentMonthClick = ()  => {
+    const handleMonthlySpendingClick = ()  => {
         onComponentChange("currentMonth")
+    }
+
+    const handleFullOverviewClick = () => {
+        onComponentChange("allTime")
     }
 
     const handleBudgetClick = () => {
@@ -18,8 +22,9 @@ export default function SideBar({ onComponentChange }) {
             <h1 className="sidebar-logo">Spender</h1>
 
             <nav className="sidebar-nav">
-                <a href="#" className="sidebar-link" onClick={handleCurrentMonthClick}>🏠 Spending Overview</a>
-                <a href="#" className="sidebar-link" onClick={handleBudgetClick}>📊 Budget</a>
+                <a href="#" className="sidebar-link" onClick={handleMonthlySpendingClick}>📅 Monthly Spending</a>
+                <a href="#" className="sidebar-link" onClick={handleFullOverviewClick}>📊 Full Overview</a>
+                <a href="#" className="sidebar-link" onClick={handleBudgetClick}>💰 Budget</a>
             </nav>
         </div>
     );

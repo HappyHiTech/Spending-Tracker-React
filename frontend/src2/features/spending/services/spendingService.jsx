@@ -1,7 +1,17 @@
 import { API_BASE_URL } from "@utils/constants";
 
-export const getDataService = async (token) => {
-    const response = await fetch(`${API_BASE_URL}/api/get_data`, {
+export const getDataService = async (token, view = 'all') => {
+    const response = await fetch(`${API_BASE_URL}/api/get_data?view=${view}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        }
+    })
+
+    return response;
+}
+
+export const getMonthDataService = async (token) => {
+    const response = await fetch(`${API_BASE_URL}/api/get_month_data`, {
         headers: {
             'Authorization': `Bearer ${token}`,
         }
@@ -35,8 +45,8 @@ export const deleteClickService = async (token, item_id) => {
     return response;
 }
 
-export const totalSpentService = async (token) => {
-    const response = await fetch(`${API_BASE_URL}/api/get_total_spent`, {
+export const totalSpentService = async (token, view = 'all') => {
+    const response = await fetch(`${API_BASE_URL}/api/get_total_spent?view=${view}`, {
         method: "POST",
         headers: {
             'Authorization': `Bearer ${token}`
@@ -46,8 +56,8 @@ export const totalSpentService = async (token) => {
     return response;
 }
 
-export const percentPerCategoryService = async (token) => {
-    const response = await fetch(`${API_BASE_URL}/api/get_percent_per_category`, {
+export const percentPerCategoryService = async (token, view = 'all') => {
+    const response = await fetch(`${API_BASE_URL}/api/get_percent_per_category?view=${view}`, {
         method: "POST",
         headers: {
             'Authorization': `Bearer ${token}`
@@ -57,8 +67,8 @@ export const percentPerCategoryService = async (token) => {
     return response;
 }
 
-export const pricePerCategoryService = async (token) => {
-    const response = await fetch(`${API_BASE_URL}/api/get_price_per_category`, {
+export const pricePerCategoryService = async (token, view = 'all') => {
+    const response = await fetch(`${API_BASE_URL}/api/get_price_per_category?view=${view}`, {
         method: "POST",
         headers: {
             'Authorization': `Bearer ${token}`

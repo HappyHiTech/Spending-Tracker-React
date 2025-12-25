@@ -1,7 +1,8 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@contexts/AuthContext';
 import { useNavigate } from "react-router-dom";
 import { getDataService, 
+    getMonthDataService,
     adderClickService, 
     deleteClickService, 
     totalSpentService, 
@@ -21,7 +22,7 @@ export const useSpender = () => {
     return context;
 }
 
-export function SpenderProvider({ children }){
+export function SpenderProvider({ children, view = 'monthly' }){
     const [itemList, setItemList] = useState([]);
     const [percentPerCategory, setPercentPerCategory] = useState({});
     const [pricePerCategory, setPricePerCategory] = useState({});
@@ -30,21 +31,12 @@ export function SpenderProvider({ children }){
     const { token, logout } = useAuth();
     const navigate = useNavigate();
 
+    // Determine view type: 'monthly' or 'all'
+    const viewType = view === 'currentMonth' || view === 'monthly' ? 'monthly' : 'all';
 
-    useEffect(() => {
-        (async () => {
-            handleGetData();
-            handleTotalSpent();
-            handlePercentPerCategory();
-            handlePricePerCategory();
-        })();
-        
-        
-    }, [])
-
-    const handleGetData = async () => {
+    const handleGetData = async (viewParam = 'all') => {
         try {
-            const response = await getDataService(token);
+            const response = await getDataService(token, viewParam);
 
             if (response.status === 401 || response.status === 403){
                 logout();
@@ -79,8 +71,8 @@ export function SpenderProvider({ children }){
                 const data = await response.json();
                 setItemList(data.slice(0, -1));
                 setTotalSpending(data.at(-1))
-                handlePercentPerCategory();
-                handlePricePerCategory();
+                handlePercentPerCategory(viewType);
+                handlePricePerCategory(viewType);
             }
             catch (err) {
                 console.error(err);
@@ -103,8 +95,8 @@ export function SpenderProvider({ children }){
             const data = await response.json();
             setItemList(data.slice(0, -1));
             setTotalSpending(data.at(-1));
-            handlePercentPerCategory();
-            handlePricePerCategory();
+            handlePercentPerCategory(viewType);
+            handlePricePerCategory(viewType);
 
         }
         catch (err) {
@@ -113,9 +105,9 @@ export function SpenderProvider({ children }){
         
     };
 
-    const handleTotalSpent = async () => {
+    const handleTotalSpent = async (view = 'all') => {
         try {
-            const response = await totalSpentService(token);
+            const response = await totalSpentService(token, view);
             
             if (response.status === 401 || response.status === 403) {
                 logout();
@@ -133,9 +125,9 @@ export function SpenderProvider({ children }){
         
     }
 
-    const handlePercentPerCategory = async () => {
+    const handlePercentPerCategory = async (view = 'all') => {
         try {
-            const response = await percentPerCategoryService(token);
+            const response = await percentPerCategoryService(token, view);
             
             if (response.status === 401 || response.status === 403) {
                 logout();
@@ -151,9 +143,9 @@ export function SpenderProvider({ children }){
         }
     }
 
-    const handlePricePerCategory = async() => {
+    const handlePricePerCategory = async(view = 'all') => {
         try {
-            const response = await pricePerCategoryService(token);
+            const response = await pricePerCategoryService(token, view);
             
             if (response.status === 401 || response.status === 403) {
                 logout();
@@ -168,6 +160,18 @@ export function SpenderProvider({ children }){
             console.error(err);
         }
     }
+
+    useEffect(() => {
+        if (!token) return;
+        
+        (async () => {
+            handleGetData(viewType);
+            handleTotalSpent(viewType);
+            handlePercentPerCategory(viewType);
+            handlePricePerCategory(viewType);
+        })();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [viewType, token])
     
     const value = {
         handleGetData,
@@ -181,6 +185,7 @@ export function SpenderProvider({ children }){
         percentPerCategory,
         pricePerCategory,
         adderNotes,
+        viewType,
     };
 
     return (
