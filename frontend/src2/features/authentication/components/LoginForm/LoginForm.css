@@ -160,17 +160,39 @@
 
 @media (max-width: 768px) {
     .login-form-container {
-        width: 80vw;
+        width: 90%;
+        max-width: 20rem;
         min-width: auto;
-        padding: 0.1rem 0.8rem 0.8rem 0.8rem;
-        margin-top: 1.5rem;
+        padding: 0.1rem 0.6rem 0.6rem 0.6rem;
+        margin-top: 1rem;
     }
     
     .login-form-title {
-        font-size: 1.4rem;
+        font-size: 1.2rem;
+        margin-bottom: 0.8rem;
+    }
+    
+    .login-form-input-title {
+        font-size: 0.9rem;
+    }
+    
+    .login-form-input-box {
+        padding: 0.3rem;
+        font-size: 0.9rem;
     }
     
     .login-form-submit-btn {
-        font-size: 1rem;
+        font-size: 0.9rem;
+        padding: 0.5rem 0;
+        margin-top: 0.8rem;
+    }
+    
+    .login-form-toggle {
+        font-size: 0.9rem;
+        margin-top: 0.8rem;
+    }
+    
+    .login-form-toggle button {
+        font-size: 0.9rem;
     }
 }

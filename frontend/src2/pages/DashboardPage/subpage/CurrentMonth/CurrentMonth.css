@@ -29,6 +29,9 @@
         padding: 1rem;
         padding-top: 0.5rem;
         background-color: rgba(0, 0, 255, 0);
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
     }
     
     .current-month-section {
@@ -36,6 +39,8 @@
         flex-direction: row;
         justify-content: center;
         flex-wrap: wrap;
-        gap: 2rem;
+        gap: 1rem;
+        width: 100%;
+        max-width: 100%;
     }
 }
