@@ -23,3 +23,16 @@
     color: black;
 }
 
+@media (max-width: 768px) {
+    .percent-per-container {
+        width: 80vw;
+        max-width: 22.8rem;
+        padding: 0.8rem 1rem;
+        min-height: auto;
+    }
+    
+    .percent-per-title {
+        font-size: 1.1rem;
+    }
+}
+

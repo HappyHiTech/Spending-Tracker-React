@@ -1,12 +1,13 @@
 .navbar-container {
   display: flex;
-  width: 95.7%;
+  width: 100%;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: 0.75rem 2rem;
+  padding: 0.75rem 1rem;
   border-bottom: 2px solid #e5e7eb;
   box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.03);
+  box-sizing: border-box;
 }
 
 .navbar-container-menu-icon {
@@ -44,6 +45,10 @@
 }
 
 @media (min-width: 768px) {
+  .navbar-container {
+    padding: 0.75rem 2rem;
+  }
+  
   .navbar-container-menu-icon {
     display: none;
   }

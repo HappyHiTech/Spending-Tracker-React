@@ -109,12 +109,12 @@
     }
     
     .adder-container {
-        width: 88vw; /* Make container more mobile-friendly */
+        width: 80vw; /* Make container more mobile-friendly */
         min-width: auto; /* Remove min-width constraint on mobile */
-        padding: 0.1rem 1rem; /* Reduce padding on mobile */
+        padding: 0.1rem 0.8rem; /* Reduce padding on mobile */
     }
     
     .adder-header-title {
-        font-size: 1.5rem; /* Smaller title on mobile */
+        font-size: 1.4rem; /* Smaller title on mobile */
     }
 }
